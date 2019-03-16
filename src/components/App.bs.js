@@ -10,7 +10,7 @@ var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ReasonApollo = require("reason-apollo/src/ReasonApollo.bs.js");
 
-var ppx_printed_query = "query Commits  {\nuser(login: \"ptrfrncsmrph\")  {\nname  \ncontributionsCollection  {\ncommitContributionsByRepository  {\nrepository  {\nname  \n}\n\ncontributions(first: 100)  {\npageInfo  {\nhasNextPage  \n}\n\nnodes  {\noccurredAt  \n}\n\n}\n\n}\n\n}\n\n}\n\n}\n";
+var ppx_printed_query = "query Commits  {\nuser(login: \"ptrfrncsmrph\")  {\nname  \ncontributionsCollection  {\ncommitContributionsByRepository  {\nrepository  {\nname  \nprimaryLanguage  {\nname  \n}\n\n}\n\ncontributions(first: 100)  {\npageInfo  {\nhasNextPage  \n}\n\nnodes  {\noccurredAt  \n}\n\n}\n\n}\n\n}\n\n}\n\n}\n";
 
 function parse(value) {
   var match = Js_json.decodeObject(value);
@@ -60,17 +60,50 @@ function parse(value) {
                             if (match$1 !== undefined) {
                               var match$2 = Js_json.decodeObject(Caml_option.valFromOption(match$1));
                               if (match$2 !== undefined) {
-                                var match$3 = Js_dict.get(Caml_option.valFromOption(match$2), "name");
+                                var value$2 = Caml_option.valFromOption(match$2);
+                                var match$3 = Js_dict.get(value$2, "name");
                                 var tmp$1;
                                 if (match$3 !== undefined) {
-                                  var value$2 = Caml_option.valFromOption(match$3);
-                                  var match$4 = Js_json.decodeString(value$2);
-                                  tmp$1 = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                                  var value$3 = Caml_option.valFromOption(match$3);
+                                  var match$4 = Js_json.decodeString(value$3);
+                                  tmp$1 = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
                                 } else {
                                   tmp$1 = Js_exn.raiseError("graphql_ppx: Field name on type Repository is missing");
                                 }
+                                var match$5 = Js_dict.get(value$2, "primaryLanguage");
+                                var tmp$2;
+                                if (match$5 !== undefined) {
+                                  var value$4 = Caml_option.valFromOption(match$5);
+                                  var match$6 = Js_json.decodeNull(value$4);
+                                  if (match$6 !== undefined) {
+                                    tmp$2 = undefined;
+                                  } else {
+                                    var match$7 = Js_json.decodeObject(value$4);
+                                    var tmp$3;
+                                    if (match$7 !== undefined) {
+                                      var match$8 = Js_dict.get(Caml_option.valFromOption(match$7), "name");
+                                      var tmp$4;
+                                      if (match$8 !== undefined) {
+                                        var value$5 = Caml_option.valFromOption(match$8);
+                                        var match$9 = Js_json.decodeString(value$5);
+                                        tmp$4 = match$9 !== undefined ? match$9 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$5));
+                                      } else {
+                                        tmp$4 = Js_exn.raiseError("graphql_ppx: Field name on type Language is missing");
+                                      }
+                                      tmp$3 = {
+                                        name: tmp$4
+                                      };
+                                    } else {
+                                      tmp$3 = Js_exn.raiseError("graphql_ppx: Object is not a value");
+                                    }
+                                    tmp$2 = Caml_option.some(tmp$3);
+                                  }
+                                } else {
+                                  tmp$2 = undefined;
+                                }
                                 tmp = {
-                                  name: tmp$1
+                                  name: tmp$1,
+                                  primaryLanguage: tmp$2
                                 };
                               } else {
                                 tmp = Js_exn.raiseError("graphql_ppx: Object is not a value");
@@ -78,45 +111,45 @@ function parse(value) {
                             } else {
                               tmp = Js_exn.raiseError("graphql_ppx: Field repository on type CommitContributionsByRepository is missing");
                             }
-                            var match$5 = Js_dict.get(value$1, "contributions");
-                            var tmp$2;
-                            if (match$5 !== undefined) {
-                              var match$6 = Js_json.decodeObject(Caml_option.valFromOption(match$5));
-                              if (match$6 !== undefined) {
-                                var value$3 = Caml_option.valFromOption(match$6);
-                                var match$7 = Js_dict.get(value$3, "pageInfo");
-                                var tmp$3;
-                                if (match$7 !== undefined) {
-                                  var match$8 = Js_json.decodeObject(Caml_option.valFromOption(match$7));
-                                  if (match$8 !== undefined) {
-                                    var match$9 = Js_dict.get(Caml_option.valFromOption(match$8), "hasNextPage");
-                                    var tmp$4;
-                                    if (match$9 !== undefined) {
-                                      var value$4 = Caml_option.valFromOption(match$9);
-                                      var match$10 = Js_json.decodeBoolean(value$4);
-                                      tmp$4 = match$10 !== undefined ? match$10 : Js_exn.raiseError("graphql_ppx: Expected boolean, got " + JSON.stringify(value$4));
+                            var match$10 = Js_dict.get(value$1, "contributions");
+                            var tmp$5;
+                            if (match$10 !== undefined) {
+                              var match$11 = Js_json.decodeObject(Caml_option.valFromOption(match$10));
+                              if (match$11 !== undefined) {
+                                var value$6 = Caml_option.valFromOption(match$11);
+                                var match$12 = Js_dict.get(value$6, "pageInfo");
+                                var tmp$6;
+                                if (match$12 !== undefined) {
+                                  var match$13 = Js_json.decodeObject(Caml_option.valFromOption(match$12));
+                                  if (match$13 !== undefined) {
+                                    var match$14 = Js_dict.get(Caml_option.valFromOption(match$13), "hasNextPage");
+                                    var tmp$7;
+                                    if (match$14 !== undefined) {
+                                      var value$7 = Caml_option.valFromOption(match$14);
+                                      var match$15 = Js_json.decodeBoolean(value$7);
+                                      tmp$7 = match$15 !== undefined ? match$15 : Js_exn.raiseError("graphql_ppx: Expected boolean, got " + JSON.stringify(value$7));
                                     } else {
-                                      tmp$4 = Js_exn.raiseError("graphql_ppx: Field hasNextPage on type PageInfo is missing");
+                                      tmp$7 = Js_exn.raiseError("graphql_ppx: Field hasNextPage on type PageInfo is missing");
                                     }
-                                    tmp$3 = {
-                                      hasNextPage: tmp$4
+                                    tmp$6 = {
+                                      hasNextPage: tmp$7
                                     };
                                   } else {
-                                    tmp$3 = Js_exn.raiseError("graphql_ppx: Object is not a value");
+                                    tmp$6 = Js_exn.raiseError("graphql_ppx: Object is not a value");
                                   }
                                 } else {
-                                  tmp$3 = Js_exn.raiseError("graphql_ppx: Field pageInfo on type CreatedCommitContributionConnection is missing");
+                                  tmp$6 = Js_exn.raiseError("graphql_ppx: Field pageInfo on type CreatedCommitContributionConnection is missing");
                                 }
-                                var match$11 = Js_dict.get(value$3, "nodes");
-                                var tmp$5;
-                                if (match$11 !== undefined) {
-                                  var value$5 = Caml_option.valFromOption(match$11);
-                                  var match$12 = Js_json.decodeNull(value$5);
-                                  if (match$12 !== undefined) {
-                                    tmp$5 = undefined;
+                                var match$16 = Js_dict.get(value$6, "nodes");
+                                var tmp$8;
+                                if (match$16 !== undefined) {
+                                  var value$8 = Caml_option.valFromOption(match$16);
+                                  var match$17 = Js_json.decodeNull(value$8);
+                                  if (match$17 !== undefined) {
+                                    tmp$8 = undefined;
                                   } else {
-                                    var match$13 = Js_json.decodeArray(value$5);
-                                    tmp$5 = match$13 !== undefined ? match$13.map((function (value) {
+                                    var match$18 = Js_json.decodeArray(value$8);
+                                    tmp$8 = match$18 !== undefined ? match$18.map((function (value) {
                                               var match = Js_json.decodeNull(value);
                                               if (match !== undefined) {
                                                 return undefined;
@@ -133,24 +166,24 @@ function parse(value) {
                                                 }
                                                 return Caml_option.some(tmp);
                                               }
-                                            })) : Js_exn.raiseError("graphql_ppx: Expected array, got " + JSON.stringify(value$5));
+                                            })) : Js_exn.raiseError("graphql_ppx: Expected array, got " + JSON.stringify(value$8));
                                   }
                                 } else {
-                                  tmp$5 = undefined;
+                                  tmp$8 = undefined;
                                 }
-                                tmp$2 = {
-                                  pageInfo: tmp$3,
-                                  nodes: tmp$5
+                                tmp$5 = {
+                                  pageInfo: tmp$6,
+                                  nodes: tmp$8
                                 };
                               } else {
-                                tmp$2 = Js_exn.raiseError("graphql_ppx: Object is not a value");
+                                tmp$5 = Js_exn.raiseError("graphql_ppx: Object is not a value");
                               }
                             } else {
-                              tmp$2 = Js_exn.raiseError("graphql_ppx: Field contributions on type CommitContributionsByRepository is missing");
+                              tmp$5 = Js_exn.raiseError("graphql_ppx: Field contributions on type CommitContributionsByRepository is missing");
                             }
                             return {
                                     repository: tmp,
-                                    contributions: tmp$2
+                                    contributions: tmp$5
                                   };
                           } else {
                             return Js_exn.raiseError("graphql_ppx: Object is not a value");
@@ -262,7 +295,24 @@ function make$1(_children) {
                                         var match = result[0].user;
                                         if (match !== undefined) {
                                           return React.createElement("ul", undefined, Caml_option.valFromOption(match).contributionsCollection.commitContributionsByRepository.map((function (c) {
-                                                            return React.createElement("li", undefined, c.repository.name);
+                                                            var match = c.contributions.nodes;
+                                                            if (match !== undefined) {
+                                                              return React.createElement("ul", undefined, match.map((function (n) {
+                                                                                var tmp;
+                                                                                if (n !== undefined) {
+                                                                                  var res = Js_json.decodeString(Caml_option.valFromOption(n).occurredAt);
+                                                                                  tmp = res !== undefined ? res : "JSON parse failure";
+                                                                                } else {
+                                                                                  tmp = "No date";
+                                                                                }
+                                                                                var match = c.repository.primaryLanguage;
+                                                                                return React.createElement("li", undefined, tmp + (" " + (
+                                                                                              match !== undefined ? Caml_option.valFromOption(match).name : "No primary language"
+                                                                                            )));
+                                                                              })));
+                                                            } else {
+                                                              return React.createElement("div", undefined, "Couldn't fetch");
+                                                            }
                                                           })));
                                         } else {
                                           return React.createElement("div", undefined, "No user was found");

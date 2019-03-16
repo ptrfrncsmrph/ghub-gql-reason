@@ -7,6 +7,9 @@ module Commits = [%graphql
         commitContributionsByRepository {
           repository {
             name
+            primaryLanguage {
+              name
+            }
           }
           contributions(first: 100) {
             pageInfo {
@@ -46,7 +49,42 @@ let make = _children => {
               <ul>
                 {user##contributionsCollection##commitContributionsByRepository
                  |> Js_array.map(c =>
-                      <li> {c##repository##name |> ReasonReact.string} </li>
+                      switch (c##contributions##nodes) {
+                      | Some(nodes) =>
+                        <ul>
+                          {nodes
+                           |> Js_array.map(n =>
+                                <li>
+                                  {(
+                                     switch (n) {
+                                     | None => "No date"
+                                     | Some(n) =>
+                                       n##occurredAt
+                                       |> Js.Json.decodeString
+                                       |> (
+                                         res =>
+                                           switch (res) {
+                                           | None => "JSON parse failure"
+                                           | Some(s) => s
+                                           }
+                                       )
+                                     }
+                                   )
+                                   ++ " "
+                                   ++ (
+                                     switch (c##repository##primaryLanguage) {
+                                     | None => "No primary language"
+                                     | Some(l) => l##name
+                                     }
+                                   )
+                                   |> ReasonReact.string}
+                                </li>
+                              )
+                           |> ReasonReact.array}
+                        </ul>
+                      | None =>
+                        <div> {"Couldn't fetch" |> ReasonReact.string} </div>
+                      }
                     )
                  |> ReasonReact.array}
               </ul>
