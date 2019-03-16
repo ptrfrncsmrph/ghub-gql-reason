@@ -1,6 +1,6 @@
 let inMemoryCache = ApolloInMemoryCache.createInMemoryCache();
 
-let accessToken = "e711947b506957d760cf48b3c6f67c50dfed5334";
+let accessToken = "29b20cc5d89037171fab000ab4c5374e08372055";
 
 let contextHandler = () => {
   let headers = {

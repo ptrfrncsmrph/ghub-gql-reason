@@ -2,6 +2,7 @@ module Commits = [%graphql
   {|
   query Commits {
     user(login: "ptrfrncsmrph") {
+      name
       contributionsCollection {
         commitContributionsByRepository {
           repository {
@@ -38,7 +39,19 @@ let make = _children => {
           | Loading => <div> {"Loading..." |> ReasonReact.string} </div>
           | Error(error) =>
             <div> {error##message |> ReasonReact.string} </div>
-          | Data(data) => <pre> {data |> ReasonReact.string} </pre>
+          | Data(response) =>
+            switch (response##user) {
+            | None => <div> {"No user was found" |> ReasonReact.string} </div>
+            | Some(user) =>
+              switch (user##name) {
+              | None =>
+                <div>
+                  {"No name was associated with this user"
+                   |> ReasonReact.string}
+                </div>
+              | Some(name) => <div> {name |> ReasonReact.string} </div>
+              }
+            }
           }
         }
       </CommitsQuery>
