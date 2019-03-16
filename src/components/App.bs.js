@@ -261,12 +261,9 @@ function make$1(_children) {
                                       } else if (result.tag) {
                                         var match = result[0].user;
                                         if (match !== undefined) {
-                                          var match$1 = Caml_option.valFromOption(match).name;
-                                          if (match$1 !== undefined) {
-                                            return React.createElement("div", undefined, match$1);
-                                          } else {
-                                            return React.createElement("div", undefined, "No name was associated with this user");
-                                          }
+                                          return React.createElement("ul", undefined, Caml_option.valFromOption(match).contributionsCollection.commitContributionsByRepository.map((function (c) {
+                                                            return React.createElement("li", undefined, c.repository.name);
+                                                          })));
                                         } else {
                                           return React.createElement("div", undefined, "No user was found");
                                         }

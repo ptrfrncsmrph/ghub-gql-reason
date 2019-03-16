@@ -1,6 +1,6 @@
 let inMemoryCache = ApolloInMemoryCache.createInMemoryCache();
 
-let accessToken = "29b20cc5d89037171fab000ab4c5374e08372055";
+[@bs.val] external accessToken: string = "process.env.GH_TOKEN";
 
 let contextHandler = () => {
   let headers = {

@@ -8,12 +8,10 @@ var ApolloInMemoryCache = require("reason-apollo/src/ApolloInMemoryCache.bs.js")
 
 var inMemoryCache = ApolloInMemoryCache.createInMemoryCache(undefined, undefined, /* () */0);
 
-var accessToken = "29b20cc5d89037171fab000ab4c5374e08372055";
-
 function contextHandler(param) {
   return {
           headers: {
-            authorization: "Bearer " + (String(accessToken) + "")
+            authorization: "Bearer " + (String(process.env.GH_TOKEN) + "")
           }
         };
 }
@@ -28,7 +26,6 @@ var instance = ReasonApollo.createApolloClient(ApolloLink.from(/* array */[
         ]), inMemoryCache, undefined, undefined, undefined, undefined, /* () */0);
 
 exports.inMemoryCache = inMemoryCache;
-exports.accessToken = accessToken;
 exports.contextHandler = contextHandler;
 exports.authLink = authLink;
 exports.httpLink = httpLink;

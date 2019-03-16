@@ -43,14 +43,13 @@ let make = _children => {
             switch (response##user) {
             | None => <div> {"No user was found" |> ReasonReact.string} </div>
             | Some(user) =>
-              switch (user##name) {
-              | None =>
-                <div>
-                  {"No name was associated with this user"
-                   |> ReasonReact.string}
-                </div>
-              | Some(name) => <div> {name |> ReasonReact.string} </div>
-              }
+              <ul>
+                {user##contributionsCollection##commitContributionsByRepository
+                 |> Js_array.map(c =>
+                      <li> {c##repository##name |> ReasonReact.string} </li>
+                    )
+                 |> ReasonReact.array}
+              </ul>
             }
           }
         }
