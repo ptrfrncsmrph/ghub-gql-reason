@@ -35,6 +35,7 @@ let make = _children => {
   render: _self => {
     let commitsQuery = Commits.make();
     <div>
+      <Text />
       <h1> {"githubub" |> ReasonReact.string} </h1>
       <CommitsQuery variables=commitsQuery##variables>
         ...{({result}) =>

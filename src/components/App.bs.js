@@ -9,6 +9,7 @@ var Js_json = require("bs-platform/lib/js/js_json.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ReasonApollo = require("reason-apollo/src/ReasonApollo.bs.js");
+var Text$ReactTemplate = require("./Text.bs.js");
 
 var ppx_printed_query = "query Commits  {\nuser(login: \"ptrfrncsmrph\")  {\nname  \ncontributionsCollection  {\ncommitContributionsByRepository  {\nrepository  {\nname  \nprimaryLanguage  {\nname  \n}\n\n}\n\ncontributions(first: 100)  {\npageInfo  {\nhasNextPage  \n}\n\nnodes  {\noccurredAt  \n}\n\n}\n\n}\n\n}\n\n}\n\n}\n";
 
@@ -273,7 +274,7 @@ function make$1(_children) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (_self) {
               var commitsQuery = make(/* () */0);
-              return React.createElement("div", undefined, React.createElement("h1", undefined, "githubub"), ReasonReact.element(undefined, undefined, Curry.app(CommitsQuery[/* make */3], [
+              return React.createElement("div", undefined, ReasonReact.element(undefined, undefined, Text$ReactTemplate.make(/* array */[])), React.createElement("h1", undefined, "githubub"), ReasonReact.element(undefined, undefined, Curry.app(CommitsQuery[/* make */3], [
                                   Caml_option.some(commitsQuery.variables),
                                   undefined,
                                   undefined,
